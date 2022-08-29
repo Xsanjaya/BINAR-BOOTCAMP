@@ -1,0 +1,22 @@
+pipeline {
+  agent {
+    label 'Linux1'
+  }
+  stages {
+    stage('PREPARATION') {
+      steps {
+        sh '''
+        whoami
+        '''
+      }
+    }
+    stage('Runing APP') {
+      steps {
+        sh '''
+        docker-compose up --force-recreate --build -d
+        docker image prune -f
+        '''
+      }
+    }
+  }  
+}

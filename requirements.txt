@@ -1,0 +1,12 @@
+Flask           
+Flask-Migrate    
+Flask-SQLAlchemy
+Flask-Login 
+flask-restplus
+
+SQLAlchemy      
+
+python-dotenv
+passlib
+bcrypt
+pyjwt
