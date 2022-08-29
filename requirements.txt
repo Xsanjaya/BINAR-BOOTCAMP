@@ -3,6 +3,7 @@ Flask-Migrate
 Flask-SQLAlchemy
 Flask-Login 
 flask-restplus
+swagger-ui-py
 
 SQLAlchemy      
 
