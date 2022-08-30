@@ -11,3 +11,6 @@ python-dotenv
 passlib
 bcrypt
 pyjwt
+
+pandas
+PySastrawi

@@ -2,15 +2,25 @@ import json
 from flask import request
 from werkzeug.utils import secure_filename
 
+from utils.text import preprocess
+
+
 def text():
     req = request.json
     req_text = req['text']
+
+    if isinstance(req_text, list):
+        result_text = [ preprocess(text) for text in req_text]
+    elif isinstance(req_text, str):
+        preprocess(req_text)
+    else:
+        result_text = None
 
     result = {
         "success" : True,
         "error"   : None,
         "message" : "Text Cleansing",
-        "data"    : [ text for text in req_text ]
+        "data"    : result_text
     }
 
     return json.dumps(result)

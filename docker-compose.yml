@@ -1,13 +1,15 @@
 version: "3.9"
 
 services:
-  flaskapp:
+  binar-api:
     build:
       context: .
       dockerfile: Dockerfile
     
     image: binar-api:latest
-    container_name: flask-app
+    container_name: binar-api
+    networks:
+      - host
     ports:
       - 5001:5000
     environment:
