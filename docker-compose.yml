@@ -13,7 +13,7 @@ services:
       - "5000"
     volumes:
       - type: bind
-        source: /home/superman/databases
+        source: ./home/superman/databases
         target: /app/databases
     environment:
       - APP_NAME=BinarAPI
