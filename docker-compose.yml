@@ -10,10 +10,10 @@ services:
     container_name: binar-api
     ports:
       - 5001:5000
-    # volumes:
-    #   - type: volume
-    #     source: database
-    #     target: /app/database
+    volumes:
+      - type: bind
+        source: /home/superman/databases
+        target: /app/database
     environment:
       - APP_NAME=BinarAPI
 
