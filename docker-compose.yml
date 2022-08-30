@@ -11,9 +11,9 @@ services:
     ports:
       - 5001:5000
     volumes:
-      - binarapi-db:/app/databases
+      - database:/app/databases
     environment:
       - APP_NAME=BinarAPI
 
 volumes:
-  binarapi-db:
+  database:
