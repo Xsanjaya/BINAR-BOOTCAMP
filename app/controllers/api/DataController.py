@@ -12,7 +12,7 @@ def text():
     if isinstance(req_text, list):
         result_text = [ preprocess(text) for text in req_text]
     elif isinstance(req_text, str):
-        preprocess(req_text)
+        result_text = preprocess(req_text)
     else:
         result_text = None
 
