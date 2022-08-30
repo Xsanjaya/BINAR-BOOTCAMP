@@ -8,9 +8,8 @@ services:
     
     image: binar-api:latest
     container_name: binar-api
-    network_mode: "host"
-    # ports:
-    #   - "5000"
+    ports:
+      - 5001:5000
     volumes:
       - type: volume
         source: database
