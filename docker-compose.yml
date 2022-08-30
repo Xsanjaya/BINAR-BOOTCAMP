@@ -12,11 +12,11 @@ services:
     ports:
       - "5000"
     volumes:
-      - type: volume
-        source: database
+      - type: bind
+        source: /home/superman/databases
         target: /app/databases
     environment:
       - APP_NAME=BinarAPI
 
-volumes:
-  database: {}
+# volumes:
+#   database: {}
