@@ -11,7 +11,7 @@ services:
     ports:
       - 5001:5000
     volumes:
-      - type: volumes
+      - type: volume
         source: database
         target: /app/database
     environment:
