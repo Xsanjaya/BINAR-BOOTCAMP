@@ -1,10 +1,13 @@
 import json
 from flask import request
 from werkzeug.utils import secure_filename
+from utils.auth_handler import AuthHandler
+
+auth = AuthHandler()
 
 from utils.text import preprocess
 
-
+@auth.auth_wrapper
 def text():
     req = request.json
     req_text = req['text']

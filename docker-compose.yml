@@ -11,11 +11,9 @@ services:
     ports:
       - 5001:5000
     volumes:
-      - type: bind
-        source: /home/superman/databases
-        target: /app/database
+      - binarapi-db:/app/databases
     environment:
       - APP_NAME=BinarAPI
 
-# volumes:
-#   database: {}
+volumes:
+  binarapi-db:

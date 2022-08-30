@@ -49,8 +49,8 @@ class AuthHandler():
         @wraps(f)
         def decorated(*args, **kwargs):
             token = None
-            if 'x-token' in request.headers:
-                token = request.headers['x-token']
+            if 'x-token-access' in request.headers:
+                token = request.headers['x-token-access']
             
             if not token:
                 return json.dumps({'message' : str(request.headers)})
