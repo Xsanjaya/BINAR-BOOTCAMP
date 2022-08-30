@@ -54,7 +54,7 @@ def login():
         return json.dumps(result)
 
     token = auth_handler.token_encode(user.token)
-    login_user(user)
+
     result = {
             "success" : True,
             "error"   : None,
