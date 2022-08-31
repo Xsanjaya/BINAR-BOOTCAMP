@@ -5,10 +5,10 @@ from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
 
-df_slang = pd.read_csv('assets/data_set/new_kamusalay.csv', encoding='latin-1', header=None)
+df_slang = pd.read_csv('data/data_set/new_kamusalay.csv', encoding='latin-1', header=None)
 df_slang = df_slang.rename(columns={0: 'original', 1: 'default'})
 
-id_stopword_dict = pd.read_csv('assets/data_set/stopwordbahasa.csv', header=None)
+id_stopword_dict = pd.read_csv('data/data_set/stopwordbahasa.csv', header=None)
 id_stopword_dict = id_stopword_dict.rename(columns={0: 'stopword'})
 stopwords_new    = pd.DataFrame(['sih','nya', 'iya', 'nih', 'biar', 'tau', 'kayak', 'banget'], columns=['stopword'])
 id_stopword_dict = pd.concat([id_stopword_dict,stopwords_new]).reset_index()
