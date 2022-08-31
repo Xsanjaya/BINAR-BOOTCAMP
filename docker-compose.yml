@@ -16,5 +16,6 @@ services:
       - /home/superman/dockerVolume:/app/databases:rw
     environment:
       - APP_NAME=BinarAPI
-
-      
+networks:
+  net-gateway:
+    external: true
