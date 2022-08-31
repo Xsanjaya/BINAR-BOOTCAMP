@@ -2,7 +2,7 @@ import os
 
 class AppConfig:
 
-    UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', "data\\files\\")
+    UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', "data/files/")
 
     SECRET_KEY = os.urandom(32)
 
