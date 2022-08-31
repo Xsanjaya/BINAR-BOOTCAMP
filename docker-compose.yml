@@ -17,5 +17,4 @@ services:
     environment:
       - APP_NAME=BinarAPI
 
-networks:
-  net-gateway: {}
+      
