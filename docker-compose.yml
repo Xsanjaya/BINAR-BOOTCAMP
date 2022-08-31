@@ -11,6 +11,6 @@ services:
     ports:
       - 5001:5000
     volumes:
-      - /home/superman/docker:/app/databases:rw
+      - /home/superman/dockerVolume:/app/databases:rw
     environment:
       - APP_NAME=BinarAPI
