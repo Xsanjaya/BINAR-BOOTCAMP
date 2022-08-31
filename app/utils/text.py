@@ -103,6 +103,6 @@ def csv_cleaning(file, col_name, encoding='latin-1', delimiter=','):
 
    now = time.strftime("%H%M%S_%d%m%Y")
    file_name = f"file_response_{now}.csv"
-   # df.to_csv(f"{config.UPLOAD_FOLDER}{file_name}")
-   # fileremover(config.UPLOAD_FOLDER, limitfile=10)
+   df.to_csv(f"{config.UPLOAD_FOLDER}{file_name}")
+   fileremover(f"./{config.UPLOAD_FOLDER}", limitfile=10)
    return file_name
