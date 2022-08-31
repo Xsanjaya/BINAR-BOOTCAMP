@@ -13,7 +13,7 @@ pipeline {
     stage('Runing APP') {
       steps {
         sh '''
-        docker-compose up --force-recreate --build -d
+        docker-compose up --force-recreate --build --no-cache -d
         docker image prune -f
         '''
       }
