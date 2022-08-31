@@ -1,11 +1,16 @@
-import json
-from flask import request
+import json, os
+from flask import request, make_response, send_from_directory
 from werkzeug.utils import secure_filename
 from utils.auth_handler import AuthHandler
+from config import AppConfig
+from utils.text import preprocess, csv_cleaning
 
+config = AppConfig()
 auth = AuthHandler()
 
-from utils.text import preprocess
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in set(['txt', 'csv'])
 
 @auth.auth_wrapper
 def text():
@@ -25,19 +30,59 @@ def text():
         "message" : "Text Cleansing",
         "data"    : result_text
     }
-
-    return json.dumps(result)
+    return make_response(json.dumps(result), 200)
 
 def file():
-    req      = request.form.to_dict()
-    req_file = request.files.to_dict()
-    print(req, req_file)
+    if 'file' not in request.files:
+        result = {
+            "success" : False,
+            "error"   : "File Not Found",
+            "message" : "No file part in the request",
+            "data"    : None
+        }
+        return json.dumps(result)
 
-    result = {
-        "success" : True,
-        "error"   : None,
-        "message" : "Text Cleansing",
-        "data"    : []
-    }
+    file = request.files['file']
+    if file.filename == '':
+        result = {
+            "success" : False,
+            "error"   : "File Not Found",
+            "message" : "No file selected for uploading",
+            "data"    : None
+        }
+        return json.dumps(result)
 
-    return json.dumps(result)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        try:
+            f = csv_cleaning(file, "Tweet")
+            
+            result = {
+                "success" : False,
+                "error"   : None,
+                "message" : "File successfully uploaded",
+                "data"    : {
+                    "file" : f"https://app.xsanjaya.me/api/data/files/{f}"
+                }
+            }
+            return make_response(json.dumps(result), 200)
+       
+        except Exception as err:
+            result = {
+                "success" : False,
+                "error"   : str(err),
+                "message" : "CSV Cleaning error",
+                "data"    : None
+            }
+            return result
+    else:
+        result = {
+            "success" : False,
+            "error"   : "File Not Allowed",
+            "message" : "Allowed file types CSV",
+            "data"    : []
+        }
+        return json.dumps(result)
+
+def get_file(file_name):
+    return send_from_directory(config.UPLOAD_FOLDER, file_name, as_attachment=True)

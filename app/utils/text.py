@@ -1,6 +1,8 @@
-from unittest import result
-import pandas as pd, re
+import pandas as pd, re, time, os
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+from config import AppConfig
+
+config = AppConfig()
 
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
@@ -78,3 +80,29 @@ def preprocess(text):
    result = {'original' : text, 'result' : new_text}
    return result
 
+def csv_text(text):
+   return preprocess(text)['result']
+
+def fileremover(dir_path, limitfile=10):
+   count = 0
+   files = []
+   for x in os.listdir(dir_path):
+      if os.path.isfile(os.path.join(dir_path, x)):
+         files.append(x)
+         count += 1
+   
+   if count>=limitfile:
+      for i in range(int(limitfile/2)):
+         os.remove(f"{dir_path}{files[i-1]}")
+
+
+def csv_cleaning(file, col_name, encoding='latin-1', delimiter=','):
+   
+   df = pd.read_csv(file, encoding=encoding, delimiter=delimiter)
+   df.insert(1, f'{col_name}_Result', df[col_name].apply(csv_text))
+
+   now = time.strftime("%H%M%S_%d%m%Y")
+   file_name = f"file_response_{now}.csv"
+   df.to_csv(f"{config.UPLOAD_FOLDER}{file_name}")
+   fileremover(config.UPLOAD_FOLDER, limitfile=4)
+   return file_name
