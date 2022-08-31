@@ -9,10 +9,13 @@ services:
     image: binar-api:latest
     container_name: binar-api
     networks:
-      - bridge
+      - net-gateway
     ports:
       - 5001:5000
     volumes:
       - /home/superman/dockerVolume:/app/databases:rw
     environment:
       - APP_NAME=BinarAPI
+
+networks:
+  net-gateway: {}
