@@ -38,9 +38,9 @@ def register():
 
 
 def login():
-    req = request.json
-    email    = req['email']
-    password = req['password']
+    req = request.args
+    email    = req.get('email')
+    password = req.get('password')
 
     user =  db.session.query(User).filter(User.email == email).first()
 

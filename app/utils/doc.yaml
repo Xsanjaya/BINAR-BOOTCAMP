@@ -15,14 +15,35 @@ tags:
     description: Everything about data
 
 paths:
-  / auth/login:
-    post:
+  /auth/login:
+    get:
       tags:
-        -  auth
-      summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
+        - auth
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      parameters:
+        - name: email
+          in: query
+          description: The email for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
 
-  / auth/register:
+  /auth/register:
     post:
       tags:
         -  auth
@@ -34,67 +55,92 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/users'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/users'
+              $ref: '#/components/schemas/register'
       responses:
         default:
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/users'
-            application/xml:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /data/text:
+    post:
+      tags:
+        - data
+      summary: Text Cleansing
+      description: ''
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: "RT USER: USER siapa yang telat ngasih tau elu?edan sarap gue bergaul dengan cigax jifla calis sama siapa noh licew juga"
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/users'
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - api_key: []
 
-
+  /data/file:
+    post:
+      tags:
+        - data
+      summary: uploads an file csv
+      description: ''
+      operationId: uploadFile
+      parameters:
+        - name: file
+          in: path
+          description: ''
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
 components:
   schemas:
-    users:
+    ApiResponse:
       type: object
       properties:
-        id:
+        code:
           type: integer
-          format: int64
-          example: 10
-        username:
+          format: int32
+        type:
           type: string
-          example: theUser
-        firstName:
+        message:
           type: string
-          example: John
-        lastName:
+      xml:
+        name: '##default'
+    register:
+      type: object
+      properties:
+        name:
           type: string
-          example: James
+          example: Xsanjaya
         email:
           type: string
-          example: john@email.com
+          example: xsanjaya@email.com
         password:
           type: string
-          example: '12345'
-        phone:
-          type: string
-          example: '12345'
-        userStatus:
-          type: integer
-          description: User Status
-          format: int32
-          example: 1
+          example: 'password'
       xml:
-        name: Users
+        name: register
 
   securitySchemes:
-    petstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
-          scopes:
-            write:pets: modify pets in your account
-            read:pets: read your pets
-    api_key:
+    x-token-access:
       type: apiKey
-      name: api_key
+      name: x-token-access
       in: header

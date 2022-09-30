@@ -5,6 +5,9 @@ from utils.auth_handler import AuthHandler
 from config import AppConfig
 from utils.text import preprocess, csv_cleaning
 
+from models import db
+from models.Text import Text
+
 config = AppConfig()
 auth = AuthHandler()
 
@@ -12,7 +15,7 @@ auth = AuthHandler()
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in set(['txt', 'csv'])
 
-@auth.auth_wrapper
+# @auth.auth_wrapper
 def text():
     req = request.json
     req_text = req['text']
@@ -21,6 +24,9 @@ def text():
         result_text = [ preprocess(text) for text in req_text]
     elif isinstance(req_text, str):
         result_text = preprocess(req_text)
+        text = Text(original=result_text['original'], result=result_text['result'])
+        db.session.add(text)
+        db.session.commit()
     else:
         result_text = None
 
@@ -62,7 +68,7 @@ def file():
                 "error"   : None,
                 "message" : "File successfully uploaded",
                 "data"    : {
-                    "file" : f"https://app.xsanjaya.me/api/data/files/{f}"
+                    "file" : f"https://app.xsanjaya.me/api/data/files/{f['filename']}"
                 }
             }
             return make_response(json.dumps(result), 200)

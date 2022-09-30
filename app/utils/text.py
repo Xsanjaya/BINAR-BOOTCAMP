@@ -18,6 +18,7 @@ id_stopword_dict = pd.DataFrame(id_stopword_dict['stopword'])
 
 def remove_unnecessary_char(text):
    new_text = re.sub(r'pic.twitter.com.[\w]+', '', text) # Remove every pic 
+   new_text = new_text.lower()
    new_text = re.sub('((www\.[^\s]+)|(https?://[^\s]+)|(http?://[^\s]+))',' ',new_text) # Remove every URL
    
    new_text = re.sub('gue','saya',new_text) # Sub gue saya
@@ -34,7 +35,7 @@ def remove_unnecessary_char(text):
       new_text = re.sub(word,'', new_text)
       new_text = re.sub(word.upper(),' ',new_text)
    
-   retweet_user = [' rt ', ' user ']
+   retweet_user = ['rt ', ' rt ', ' user ']
    
    for word in retweet_user:
       new_text = re.sub(word,' ',new_text) # Remove every retweet symbol & username
@@ -71,8 +72,7 @@ def stemming(text):
    return result
 
 def preprocess(text):
-   new_text = text.lower()
-   new_text = remove_unnecessary_char(new_text)['result']
+   new_text = remove_unnecessary_char(text)['result']
    new_text = remove_nonaplhanumeric(new_text)['result']
    new_text = normalize_slang(new_text)['result']
    new_text = stemming(new_text)['result']
@@ -95,7 +95,6 @@ def fileremover(dir_path, limitfile=10):
       for i in range(int(limitfile/2)):
          os.remove(f"{dir_path}{files[i-1]}")
 
-
 def csv_cleaning(file, col_name, encoding='latin-1', delimiter=','):
    
    df = pd.read_csv(file, encoding=encoding, delimiter=delimiter)
@@ -103,6 +102,7 @@ def csv_cleaning(file, col_name, encoding='latin-1', delimiter=','):
 
    now = time.strftime("%H%M%S_%d%m%Y")
    file_name = f"file_response_{now}.csv"
-   df.to_csv(f"{config.UPLOAD_FOLDER}{file_name}")
+   file_path = f"{config.UPLOAD_FOLDER}{file_name}"
+   df.to_csv(file_path)
    fileremover(f"{config.UPLOAD_FOLDER}", limitfile=10)
-   return file_name
+   return {'filename':file_name, 'fullpath':file_path}

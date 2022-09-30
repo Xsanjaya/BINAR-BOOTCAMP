@@ -18,7 +18,7 @@ app.config.from_object(AppConfig)
 db.init_app(app)
 migrate = Migrate(app, db)
 
-api_doc(app, config_path='utils/doc.yaml', url_prefix='/api/doc', title='API doc', editor=True)
+api_doc(app, config_path='utils/doc.yaml', url_prefix='/api/docs', title='API doc', editor=True)
 
 
 ### ROUTE API ###
