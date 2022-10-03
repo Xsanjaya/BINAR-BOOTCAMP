@@ -1,11 +1,11 @@
-import json, os
+import json, os, pandas as pd
 from flask import request, make_response, send_from_directory
 from werkzeug.utils import secure_filename
 from utils.auth_handler import AuthHandler
 from config import AppConfig
 from utils.text import preprocess, csv_cleaning
 
-from models import db
+from models import db, engine
 from models.Text import Text
 
 config = AppConfig()
@@ -63,12 +63,18 @@ def file():
         try:
             f = csv_cleaning(file, "Tweet")
             
+            df = pd.read_csv(f['fullpath'])
+            df = df.rename(columns=str.lower)
+            df2sql = df[['tweet', 'tweet_result']]
+            df2sql.rename(columns = {'tweet':'original', 'tweet_result':'result'}, inplace = True)
+            df2sql.to_sql('texts', engine, if_exists='replace', index=False)
+
             result = {
-                "success" : False,
+                "success" : True,
                 "error"   : None,
                 "message" : "File successfully uploaded",
                 "data"    : {
-                    "file" : f"https://app.xsanjaya.me/api/data/files/{f['filename']}"
+                    "file" : f"https://app.xsanjaya.me/api/data/files/{f['filename']}",
                 }
             }
             return make_response(json.dumps(result), 200)

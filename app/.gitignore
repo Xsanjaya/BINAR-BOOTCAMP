@@ -3,3 +3,4 @@ migrations
 data/files/*.csv
 *.env
 *.sqlite
+*.db

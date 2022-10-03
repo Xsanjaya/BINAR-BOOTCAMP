@@ -13,7 +13,7 @@ class AppConfig:
     DEBUG = False
 
     # Connect to the database
-    SQLALCHEMY_DATABASE_URI = os.getenv('APP_DB', 'sqlite:///data/databases/binarapi_db.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.getenv('APP_DB', 'sqlite:///data/databases/binarapi_db.db')
 
     # Turn off the Flask-SQLAlchemy event system and warning
     SQLALCHEMY_TRACK_MODIFICATIONS = True
