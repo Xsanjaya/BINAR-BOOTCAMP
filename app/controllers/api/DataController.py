@@ -38,6 +38,7 @@ def text():
     }
     return make_response(json.dumps(result), 200)
 
+# @auth.auth_wrapper
 def file():
     if 'file' not in request.files:
         result = {
