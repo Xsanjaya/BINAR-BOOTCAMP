@@ -14,7 +14,7 @@ services:
       - 5001:5000
     volumes:
       - /home/superman/dockerVolume/binarAPI/data/databases:/app/data/databases:rw
-      - /home/superman/dockerVolume/binarAPI/data:/app/data:rw
+      # - /home/superman/dockerVolume/binarAPI/data:/app/data:rw
       # - /home/superman/dockerVolume/binarAPI/migrations:/app/migrations:rw
     environment:
       - APP_NAME=BinarAPI
