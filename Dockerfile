@@ -1,5 +1,5 @@
 
-FROM python:3.9-slim-buster
+FROM python:3.9-slim
 
 COPY requirements.txt /app/requirements.txt
 COPY app/. /app
@@ -7,7 +7,7 @@ COPY app/. /app
 WORKDIR /app
 
 RUN pip install --upgrade pip --user
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN flask db init
 RUN flask db migrate
 RUN flask db upgrade
