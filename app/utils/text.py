@@ -16,17 +16,13 @@ stopwords_new    = pd.DataFrame(['sih','nya', 'iya', 'nih', 'biar', 'tau', 'kaya
 id_stopword_dict = pd.concat([id_stopword_dict,stopwords_new]).reset_index()
 id_stopword_dict = pd.DataFrame(id_stopword_dict['stopword'])
 
-def remove_unnecessary_char(text):
-   new_text = re.sub(r'pic.twitter.com.[\w]+', '', text) # Remove every pic 
+def unnecessary_char_remover(text):
+   new_text = re.sub(r'pic.twitter.com.[\w]+', '', text) 
    new_text = new_text.lower()
-   new_text = re.sub('((www\.[^\s]+)|(https?://[^\s]+)|(http?://[^\s]+))',' ',new_text) # Remove every URL
+   new_text = re.sub('((www\.[^\s]+)|(https?://[^\s]+)|(http?://[^\s]+))',' ',new_text) 
    
-   new_text = re.sub('gue','saya',new_text) # Sub gue saya
-   new_text = re.sub('\n',' ',new_text) # Remove every '\n'
-   
-   new_text = re.sub(r'[^\x00-\x7F]+',' ', new_text)
-   new_text = re.sub(r':', '', new_text)
-   new_text = re.sub(r'‚Ä¶', '', new_text)
+   new_text = re.sub('gue','saya',new_text) 
+   new_text = re.sub('\n',' ',new_text) 
    
    to_delete = ['hypertext', 'transfer', 'protocol', 'over', 'secure', 'socket', 'layer', 'dtype', 'tweet', 'name', 'object'
                ,'twitter','com', 'pic', ' ya ']
@@ -38,10 +34,10 @@ def remove_unnecessary_char(text):
    retweet_user = ['rt ', ' rt ', ' user ']
    
    for word in retweet_user:
-      new_text = re.sub(word,' ',new_text) # Remove every retweet symbol & username
+      new_text = re.sub(word,' ',new_text) 
       new_text = re.sub(word.upper(),' ',new_text)
       
-   new_text = re.sub('  +', ' ', new_text) # Remove extra spaces
+   new_text = re.sub('  +', ' ', new_text) 
    
    result = {'original' : text, 'result' : new_text}
    return result
@@ -72,7 +68,7 @@ def stemming(text):
    return result
 
 def preprocess(text):
-   new_text = remove_unnecessary_char(text)['result']
+   new_text = unnecessary_char_remover(text)['result']
    new_text = remove_nonaplhanumeric(new_text)['result']
    new_text = normalize_slang(new_text)['result']
    new_text = stemming(new_text)['result']
