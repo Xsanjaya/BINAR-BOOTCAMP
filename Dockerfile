@@ -7,7 +7,7 @@ COPY app/. /app
 WORKDIR /app
 
 RUN pip install --upgrade pip --user
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 RUN flask db init
 RUN flask db migrate
 RUN flask db upgrade
