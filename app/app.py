@@ -34,4 +34,4 @@ app.register_blueprint(web_route, url_prefix='/')
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0')q
+    app.run(host='0.0.0.0')
