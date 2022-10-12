@@ -15,7 +15,7 @@ auth = AuthHandler()
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in set(['txt', 'csv'])
 
-# @auth.auth_wrapper
+@auth.auth_wrapper
 def text():
     req = request.json
     req_text = req['text']
@@ -38,7 +38,7 @@ def text():
     }
     return make_response(json.dumps(result), 200)
 
-# @auth.auth_wrapper
+@auth.auth_wrapper
 def file():
     if 'file' not in request.files:
         result = {

@@ -98,19 +98,15 @@ paths:
       summary: uploads an file csv
       description: ''
       operationId: uploadFile
-      parameters:
-        - name: file
-          in: path
-          description: ''
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
-          application/octet-stream:
+          multipart/form-data:
             schema:
-              type: string
-              format: binary
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
       responses:
         default:
           description: successful operation
@@ -120,17 +116,19 @@ paths:
                 $ref: '#/components/schemas/ApiResponse'
       security:
         - x-token-access: []
+
 components:
   schemas:
     ApiResponse:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        type:
+        success:
+          type: boolean
+        error:
           type: string
         message:
+          type: string
+        data:
           type: string
       xml:
         name: '##default'

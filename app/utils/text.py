@@ -79,7 +79,7 @@ def preprocess(text):
 def csv_text(text):
    return preprocess(text)['result']
 
-def fileremover(dir_path, limitfile=10):
+def fileremover(dir_path, limitfile=50):
    count = 0
    files = []
    for x in os.listdir(dir_path):
